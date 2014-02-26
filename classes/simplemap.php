@@ -207,6 +207,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			$country_value 		= get_query_var( 'location_search_country' );
 			$radius_value	 	= isset( $_REQUEST['location_search_distance'] ) ? $_REQUEST['location_search_distance'] : $radius;
 			$limit_value		= isset( $_REQUEST['location_search_limit'] ) ? $_REQUEST['location_search_limit'] : $limit;
+			$page_value		= get_query_var( 'location_search_page' );
 			$is_sm_search		= isset( $_REQUEST['location_is_search_results'] ) ? 1 : 0;
 
 			// Normal Field inputs
@@ -393,6 +394,9 @@ if ( !class_exists( 'Simple_Map' ) ) {
 
 			// Hidden value for limit
 			$location_search .= "<input type='hidden' id='location_search_limit' value='" . $limit_value . "' />";
+
+			// Hidden value for page
+			$location_search .= "<input type='hidden' id='location_search_page' value='" . $page_value . "' />";
 
 			// Hidden value set to true if we got here via search
 			$location_search .= "<input type='hidden' id='location_is_search_results' name='sm-location-search' value='" . $is_sm_search . "' />";
@@ -886,6 +890,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				searchData.lat			= document.getElementById('location_search_default_lat').value;
 				searchData.lng			= document.getElementById('location_search_default_lng').value;
 				searchData.limit		= document.getElementById('location_search_limit').value; 
+				searchData.page		= document.getElementById('location_search_page').value; 
 				searchData.searching	= document.getElementById('location_is_search_results').value;
 
 				// Do SimpleMap Taxonomies
@@ -952,6 +957,10 @@ if ( !class_exists( 'Simple_Map' ) ) {
 					searchData.limit = 0;
 				}
 
+				if ( searchData.page == '' || searchData.page == null ) {
+					searchData.page = 0;
+				}
+
 				if ( searchData.radius == '' || searchData.radius == null ) {
 					searchData.radius = 0;
 				}
@@ -1007,7 +1016,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 						if ( 'none' != autoload || is_search ) {
 							if ( 'all' == autoload && is_search != 1 ) {
 								searchData.radius = 0;
-								searchData.limit = 0;
+								//searchData.limit = 0;
 							}
 
 							if (! searchData.center) {
@@ -1051,7 +1060,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				}
 				?>
 
-				var searchUrl = siteurl + '/?sm-xml-search=1&lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + <?php echo $js_tax_string; ?>'&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
+				var searchUrl = siteurl + '/?sm-xml-search=1&lat=' + searchData.center.lat() + '&lng=' + searchData.center.lng() + '&radius=' + searchData.radius + '&namequery=' + searchData.homeAddress + '&query_type=' + searchData.query_type  + '&limit=' + searchData.limit + '&page=' + searchData.page + <?php echo $js_tax_string; ?>'&address=' + searchData.address + '&city=' + searchData.city + '&state=' + searchData.state + '&zip=' + searchData.zip + '&pid=<?php echo esc_js( absint( $_GET['smpid'] ) ); ?>';
 
 				<?php if ( apply_filters( 'sm-use-updating-image', true ) ) : ?>
 				// Display Updating Message and hide search results
@@ -1631,7 +1640,8 @@ if ( !class_exists( 'Simple_Map' ) ) {
 					'units' => 'mi',
 					'autoload' => 'all',
 					'lock_default_location' => false,
-					'results_limit' => '20',
+					'results_limit' => '1',//'20',
+					'results_page' => '0',
 					'address_format' => 'town, province postalcode',
 					'powered_by' => 0,
 					'enable_permalinks' => 0,
@@ -2183,6 +2193,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			$vars[] = 'location_search_zip';
 			$vars[] = 'location_search_distance';
 			$vars[] = 'location_search_limit';
+			$vars[] = 'location_search_page';
 			$vars[] = 'location_is_search_results';
 
 			return $vars;
@@ -2267,6 +2278,10 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			if ( '' == $atts['limit'] )
 				$atts['limit'] = $options['results_limit'];
 
+			//Make sure we have page
+			if ( '' == $atts['page'] )
+				$atts['page'] = $options['results_page'];
+
 			// Clean search_field_cols
 			if ( 0 === absint( $atts['search_form_cols'] ) )
 				$atts['search_form_cols'] = $default_atts['search_form_cols'];
@@ -2336,6 +2351,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				'units'						=> '',
 				'radius'					=> '',
 				'limit'						=> '',
+				'page'						=> '',
 				'autoload'					=> '',
 				'zoom_level'				=> '',
 				'map_type'					=> '',
