@@ -25,6 +25,7 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 					'onlyzip' => false,
 					'country' => false,
 					'limit' => false,
+					'page' => false,
 					'pid'	=> 0,
 				);
 				$input = array_filter( array_intersect_key( $_GET, $defaults ) ) + $defaults;
@@ -48,6 +49,12 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 					$limit = 'LIMIT ' . absint( $input['limit'] );
 
 				$limit = apply_filters( 'sm-xml-search-limit', $limit );
+
+
+				if ( $input['page'] && $input['page'] < 250 )
+					$offset = 'OFFSET ' . ( absint($input['page']) - 1) * $limit;
+				else
+					$offset = '';
 
 				// Locations within specific distance or just get them all?
 				$distance_select = $wpdb->prepare( "( 3959 * ACOS( COS( RADIANS(%s) ) * COS( RADIANS( lat_tbl.meta_value ) ) * COS( RADIANS( lng_tbl.meta_value ) - RADIANS(%s) ) + SIN( RADIANS(%s) ) * SIN( RADIANS( lat_tbl.meta_value ) ) ) ) AS distance", $input['lat'], $input['lng'], $input['lat'] ) . ', ';
@@ -108,7 +115,7 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 					GROUP BY
 						posts.ID
 						$distance_having
-					ORDER BY " . apply_filters( 'sm-location-sort-order', $distance_order . ' posts.post_name ASC', $input ) . " " . $limit;
+					ORDER BY " . apply_filters( 'sm-location-sort-order', $distance_order . ' posts.post_name ASC', $input ) . " " . $limit . " " . $offset;
 
 				$sql = apply_filters( 'sm-xml-search-locations-sql', $sql );
 

@@ -1084,6 +1084,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 					}
 
 					var bounds = new google.maps.LatLngBounds();
+					//- CALL TO RENDER EACH LOCATION
 					markers.each( function () {
 						var locationData = this;
 						locationData.distance = parseFloat(locationData.distance);
@@ -1390,6 +1391,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				return marker;
 			}
 
+			//- FUNCTION THAT GENERATES LIST ITEMS
 			function createSidebarEntry(marker, locationData, searchData) {
 				var div = document.createElement('div');
 
