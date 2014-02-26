@@ -73,6 +73,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 
 			$to_display .= '<div id="simplemap" style="' . $hidemap . 'width: ' . $map_width . '; height: ' . $map_height . ';"></div>';
 			$to_display .= '<div id="results" style="' . $hidelist . 'width: ' . $map_width . ';"></div>';
+			$to_display .= '<div id="pagination"></div>';
 			$to_display .= '<script type="text/javascript">';
 			$to_display .= '(function($) { ';
 
@@ -1085,6 +1086,15 @@ if ( !class_exists( 'Simple_Map' ) ) {
 					var results = document.getElementById('results');
 					results.innerHTML = '';
 
+
+					// Create page links
+					page_links = "";
+					for(i=1;i<=5;i++){ 
+					  page_links += '<a href="?location_search_page='+i+'">'+i+'</a> '; 
+					}
+				  jQuery( "#pagination" ).html( page_links );
+
+
 					var markers = jQuery( eval( data ) );
 					if (markers.length == 0) {
 						results.innerHTML = '<h3>' + noresults_text + '</h3>';
@@ -1105,6 +1115,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 						results.appendChild(sidebarEntry);
 						bounds.extend(locationData.point);
 					});
+					
 
 					// Make centeral marker on search
 					if ( 'search' == searchData.source && <?php echo apply_filters( 'sm-show-search-marker-image', 'true' ); ?>) {
