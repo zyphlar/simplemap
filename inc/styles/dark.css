@@ -188,6 +188,15 @@ font-style: italic;
 background: url( ../images/star.png ) no-repeat left center;
 }
 
+div#pagination a {
+  text-decoration: underline;
+}
+
+div#pagination a.active {
+  text-decoration: none;
+  color: #000;
+}
+
 .location_search_title, .location_search_distance_cell, .location_search_taxonomy_cell {
 font-weight:bold;
 vertical-align:top;

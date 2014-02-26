@@ -43,10 +43,13 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 				$distance_select = $distance_having = $distance_order = '';
 
 				// We're going to do a hard limit to 5000 for now.
-				if ( !$input['limit'] || $input['limit'] > 250 )
+				if ( !$input['limit'] || $input['limit'] > 250 || $input['limit'] == 0 ) {
+					$limit_int = 250;
 					$limit = "LIMIT 250";
+        }
 				else
-					$limit = 'LIMIT ' . absint( $input['limit'] );
+					$limit_int = absint( $input['limit'] );
+					$limit = 'LIMIT ' . $limit_int;
 
 				$limit = apply_filters( 'sm-xml-search-limit', $limit );
 
@@ -96,6 +99,26 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 						$i++;
 					}
 				}
+				// Find out how many items are in the table
+				$total_locations_sql = $wpdb->get_var( "
+		        SELECT
+							COUNT(*)
+		        FROM
+		            $wpdb->posts AS posts
+						INNER JOIN
+							$wpdb->postmeta lat_tbl ON lat_tbl.post_id = posts.ID AND lat_tbl.meta_key = 'location_lat'
+						INNER JOIN
+							$wpdb->postmeta lng_tbl ON lng_tbl.post_id = posts.ID AND lng_tbl.meta_key = 'location_lng'
+							$taxonomy_join
+						WHERE
+							posts.post_type = 'sm-location'
+							AND posts.post_status = 'publish'
+		    " );
+
+		    $total_locations = absint($total_locations_sql);
+		    $total_pages = ceil($total_locations / $limit_int); // use ceiling to round up -- 0.01 is still "1 page"
+		    $this_page_number = absint($input['page']);
+
 
 				$sql = "SELECT
 						lat_tbl.meta_value AS lat,
@@ -188,7 +211,8 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 				}
 
 				$locations = apply_filters( 'sm-xml-search-locations', $locations );
-				$this->print_json( $locations, $smtaxes );
+				$output = array('locations' => $locations, 'total_locations' => $total_locations, 'total_pages' => $total_pages, 'this_page' => $this_page_number);
+				$this->print_json( $output, $smtaxes );
 			}
 		}
 

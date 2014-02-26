@@ -1086,16 +1086,26 @@ if ( !class_exists( 'Simple_Map' ) ) {
 					var results = document.getElementById('results');
 					results.innerHTML = '';
 
+					// parse JSON from server
+				  var jsonData = jQuery( eval(data) )[0];
+
+					var total_pages = jsonData.total_pages;
+					var this_page = jsonData.this_page;
 
 					// Create page links
 					page_links = "";
-					for(i=1;i<=5;i++){ 
-					  page_links += '<a href="?location_search_page='+i+'">'+i+'</a> '; 
+					for(i=1;i<=total_pages;i++){ 
+					  page_links += '<a href="?location_search_page='+i+'"';
+					  if(i == this_page){
+					    page_links += ' class="active"';
+					  }
+					  page_links += '>'+i+'</a> '; 
 					}
 				  jQuery( "#pagination" ).html( page_links );
 
+				  // Create markers
+					var markers = jQuery( jsonData.locations );
 
-					var markers = jQuery( eval( data ) );
 					if (markers.length == 0) {
 						results.innerHTML = '<h3>' + noresults_text + '</h3>';
 						map.setCenter( searchData.center );
