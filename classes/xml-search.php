@@ -51,10 +51,12 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 				$limit = apply_filters( 'sm-xml-search-limit', $limit );
 
 
-				if ( $input['page'] && $input['page'] < 250 )
-					$offset = 'OFFSET ' . ( absint($input['page']) - 1) * $limit;
-				else
+				if ( $input['page'] && $input['page'] < 250 ) {
+					$offset = 'OFFSET ' . ( absint($input['page']) - 1) * absint( $input['limit'] );
+				}
+				else {
 					$offset = '';
+				}
 
 				// Locations within specific distance or just get them all?
 				$distance_select = $wpdb->prepare( "( 3959 * ACOS( COS( RADIANS(%s) ) * COS( RADIANS( lat_tbl.meta_value ) ) * COS( RADIANS( lng_tbl.meta_value ) - RADIANS(%s) ) + SIN( RADIANS(%s) ) * SIN( RADIANS( lat_tbl.meta_value ) ) ) ) AS distance", $input['lat'], $input['lng'], $input['lat'] ) . ', ';
