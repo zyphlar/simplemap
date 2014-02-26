@@ -46,11 +46,11 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 				if ( !$input['limit'] || $input['limit'] > 250 || $input['limit'] == 0 ) {
 					$limit_int = 250;
 					$limit = "LIMIT 250";
-        }
-				else
+				}
+				else {
 					$limit_int = absint( $input['limit'] );
 					$limit = 'LIMIT ' . $limit_int;
-
+				}
 				$limit = apply_filters( 'sm-xml-search-limit', $limit );
 
 
@@ -101,10 +101,10 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 				}
 				// Find out how many items are in the table
 				$total_locations_sql = $wpdb->get_var( "
-		        SELECT
+					SELECT
 							COUNT(*)
-		        FROM
-		            $wpdb->posts AS posts
+					FROM
+					$wpdb->posts AS posts
 						INNER JOIN
 							$wpdb->postmeta lat_tbl ON lat_tbl.post_id = posts.ID AND lat_tbl.meta_key = 'location_lat'
 						INNER JOIN
@@ -113,11 +113,11 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 						WHERE
 							posts.post_type = 'sm-location'
 							AND posts.post_status = 'publish'
-		    " );
+				" );
 
-		    $total_locations = absint($total_locations_sql);
-		    $total_pages = ceil($total_locations / $limit_int); // use ceiling to round up -- 0.01 is still "1 page"
-		    $this_page_number = absint($input['page']);
+				$total_locations = absint($total_locations_sql);
+				$total_pages = ceil($total_locations / $limit_int); // use ceiling to round up -- 0.01 is still "1 page"
+				$this_page_number = absint($input['page']);
 
 
 				$sql = "SELECT

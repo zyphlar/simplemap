@@ -37,7 +37,6 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			add_filter( 'sm_tag-text', array( &$this, 'backwards_compat_tags_text' ) );
 			add_filter( 'sm_day-text', array( &$this, 'backwards_compat_days_text' ) );
 			add_filter( 'sm_time-text', array( &$this, 'backwards_compat_times_text' ) );
-            
 		}
 
 		// This function generates the code to display the map
@@ -104,16 +103,16 @@ if ( !class_exists( 'Simple_Map' ) ) {
 						lat = location.latitude;
 						lng = location.longitude;
 
-                    	if ( document.getElementById("location_search_city_field") ) {
+						if ( document.getElementById("location_search_city_field") ) {
 							document.getElementById("location_search_city_field").value = location.city;
 						}
-	                    if ( document.getElementById("location_search_country_field") ) {
+						if ( document.getElementById("location_search_country_field") ) {
 							document.getElementById("location_search_country_field").value = location.country_code;
 						}
-        	            if ( document.getElementById("location_search_state_field") ) {
+						if ( document.getElementById("location_search_state_field") ) {
 							document.getElementById("location_search_state_field").value = location.region_code;
 						}
-                	    if ( document.getElementById("location_search_zip_field") ) {
+						if ( document.getElementById("location_search_zip_field") ) {
 							document.getElementById("location_search_zip_field").value = location.zipcode;
 						}
 						if ( document.getElementById("location_search_default_lat" ) ) {
@@ -125,7 +124,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 						' . $do_search_function . '
 						searchLocations( 1 );
 					}).error(function() {
-					 	' . $do_search_function . '
+						' . $do_search_function . '
 						searchLocations( ' . absint( $is_sm_search ) . ' );
 					});
 				}
@@ -712,7 +711,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 			function load_simplemap( lat, lng, aspid, ascid, asma, shortcode_zoom_level, map_type, shortcode_autoload ) {
 
 				zoom_level = shortcode_zoom_level;
-                autoload = shortcode_autoload;
+				autoload = shortcode_autoload;
 				<?php 
 				/*
 				if ( '' == $options['api_key'] ) {
@@ -724,7 +723,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 
 				do_action( 'sm-load-simplemap-js-top' );
 				?>
-  
+
 				if ( lat == 0 ) {
 					lat = '<?php echo esc_js( $options['default_lat'] ); ?>';
 				}
@@ -1087,7 +1086,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 					results.innerHTML = '';
 
 					// parse JSON from server
-				  var jsonData = jQuery( eval(data) )[0];
+					var jsonData = jQuery( eval(data) )[0];
 
 					var total_pages = jsonData.total_pages;
 					var this_page = jsonData.this_page;
@@ -1095,15 +1094,15 @@ if ( !class_exists( 'Simple_Map' ) ) {
 					// Create page links
 					page_links = "";
 					for(i=1;i<=total_pages;i++){ 
-					  page_links += '<a href="?location_search_page='+i+'"';
-					  if(i == this_page){
-					    page_links += ' class="active"';
-					  }
-					  page_links += '>'+i+'</a> '; 
+						page_links += '<a href="?location_search_page='+i+'"';
+						if(i == this_page){
+							page_links += ' class="active"';
+						}
+						page_links += '>'+i+'</a> '; 
 					}
-				  jQuery( "#pagination" ).html( page_links );
+					jQuery( "#pagination" ).html( page_links );
 
-				  // Create markers
+					// Create markers
 					var markers = jQuery( jsonData.locations );
 
 					if (markers.length == 0) {
@@ -1170,7 +1169,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 						// If initial load of map, zoom to default settings
 						map.setZoom(parseInt(zoom_level));
 					}
-                    
+
 					// Paranoia - fix container sizing bug -- pdb
 					google.maps.event.addListener(map, "idle", function(){
 						google.maps.event.trigger(map, 'resize');
@@ -1405,7 +1404,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 						} else {
 							infowidth = 400;
 						}
-					    infowidth = infowidth * (maxbubblewidth / 100.0);
+						infowidth = infowidth * (maxbubblewidth / 100.0);
 					}
 					if ( infowidth < maxbubblewidth ) infowidth = maxbubblewidth;
 					infowidth = parseInt(infowidth) + 'px';
