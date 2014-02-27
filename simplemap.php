@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: SimpleMap
-Version: 2.4.6
+Version: 3.4.6
 Plugin URI: http://simplemap-plugin.com/
 Author: Michael Torbert
 Author URI: http://fullthrottledevelopment.com/
