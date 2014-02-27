@@ -118,6 +118,9 @@ if ( !class_exists( 'SM_XML_Search' ) ){
 				$total_locations = absint($total_locations_sql);
 				$total_pages = ceil($total_locations / $limit_int); // use ceiling to round up -- 0.01 is still "1 page"
 				$this_page_number = absint($input['page']);
+				if($this_page_number < 1) {
+					$this_page_number = 1;
+				}
 
 
 				$sql = "SELECT
