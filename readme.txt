@@ -1,6 +1,6 @@
 === SimpleMap Store Locator ===
 
-Contributors: hallsofmontezuma, fullthrottledevelopment
+Contributors: hallsofmontezuma, fullthrottledevelopment, zyphlar
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DTJBYXGQFSW64
 Tags: map, maps, store locator, database, locations, stores, Google maps, locator
 Requires at least: 2.8
@@ -81,6 +81,9 @@ Of course! Visit [the SimpleMap home page](http://simplemap-plugin.com/) to do s
 Please visit [the SimpleMap forums at WordPress.org](http://wordpress.org/tags/simplemap?forum_id=10) if you have a bug to report. Otherwise, you may access premium support inside the plugin dashboard.
 
 == Changelog ==
+
+= 2.4.7 Beta =
+* Added pagination
 
 = 2.4.6 =
 * Bugfix release for Google API changes
