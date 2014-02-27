@@ -851,6 +851,11 @@ if ( !class_exists( 'Simple_Map' ) ) {
 				});
 			}
 
+			function loadPage( page ) {
+				document.getElementById('location_search_page').value = page; 
+				searchLocations(0);
+			}
+
 			function searchLocations( is_search ) {
 				// Init searchData
 				var searchData = {};
@@ -1095,7 +1100,7 @@ if ( !class_exists( 'Simple_Map' ) ) {
 					// Create page links
 					page_links = "";
 					for(i=1;i<=total_pages;i++){ 
-						page_links += '<a href="?location_search_page='+i+'"';
+						page_links += '<a onclick="loadPage('+i+'); return false;" href="?location_search_page='+i+'"';
 						if(i == this_page){
 							page_links += ' class="active"';
 						}
