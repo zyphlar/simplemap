@@ -19,7 +19,7 @@ if ( version_compare( $wp_version, "2.8", "<" ) )
 #### CONSTANTS ####
 
 	// Plugin Version Number
-	define( 'SIMPLEMAP_VERSION', '2.4.6' );
+	define( 'SIMPLEMAP_VERSION', '3.4.6' );
 
 	if ( !defined( 'WP_PLUGIN_DIR' ) ) {
 		define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
